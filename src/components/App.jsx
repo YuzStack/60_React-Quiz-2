@@ -1,7 +1,9 @@
+import DateCounter from './DateCounter';
+
 function App() {
   return (
     <div>
-      <h1>Hello, how are you doing today?</h1>
+      <DateCounter />
     </div>
   );
 }
