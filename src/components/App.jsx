@@ -5,6 +5,7 @@ import Loader from './Loader';
 import Error from './Error';
 import StartScreen from './StartScreen';
 import Question from './Question';
+import NextButton from './NextButton';
 /* eslint-disable */
 
 const initialState = {
@@ -35,6 +36,8 @@ const reducer = function (curState, action) {
         answer: action.payload,
         points: curState.points + pointInc,
       };
+    case 'nextQuestion':
+      return { ...curState, index: curState.index + 1, answer: null };
     default:
       throw new Error('Action unkown');
   }
@@ -65,11 +68,14 @@ function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === 'active' && (
-          <Question
-            question={questions.at(index)}
-            dispatch={dispatch}
-            answer={answer}
-          />
+          <>
+            <Question
+              question={questions.at(index)}
+              dispatch={dispatch}
+              answer={answer}
+            />
+            <NextButton dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>
