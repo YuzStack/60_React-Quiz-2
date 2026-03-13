@@ -1,6 +1,10 @@
 import { useEffect, useReducer } from 'react';
 import Header from './Header';
 import Main from './Main';
+import Loader from './Loader';
+import Error from './Error';
+import StartScreen from './StartScreen';
+import Question from './Question';
 /* eslint-disable */
 
 const initialState = {
@@ -8,6 +12,9 @@ const initialState = {
 
   // This can be either 'loading', 'errror', 'ready', 'active', or 'finished'
   status: 'loading',
+  index: 0,
+  answer: null,
+  points: 0,
 };
 
 const reducer = function (curState, action) {
@@ -16,13 +23,30 @@ const reducer = function (curState, action) {
       return { ...curState, questions: action.payload, status: 'ready' };
     case 'dataFailed':
       return { ...curState, status: 'error' };
+    case 'startQuiz':
+      return { ...curState, status: 'active' };
+    case 'newAnswer':
+      const question = curState.questions.at(curState.index);
+      const pointInc =
+        action.payload === question.correctOption ? question.points : 0;
+
+      return {
+        ...curState,
+        answer: action.payload,
+        points: curState.points + pointInc,
+      };
     default:
       throw new Error('Action unkown');
   }
 };
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
+    reducer,
+    initialState,
+  );
+
+  const numQuestions = questions.length;
 
   useEffect(function () {
     fetch('http://localhost:9000/questions')
@@ -34,7 +58,20 @@ function App() {
     <div className='app'>
       <Header />
 
-      <Main></Main>
+      <Main>
+        {status === 'loading' && <Loader />}
+        {status === 'error' && <Error />}
+        {status === 'ready' && (
+          <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
+        )}
+        {status === 'active' && (
+          <Question
+            question={questions.at(index)}
+            dispatch={dispatch}
+            answer={answer}
+          />
+        )}
+      </Main>
     </div>
   );
 }
