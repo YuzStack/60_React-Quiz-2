@@ -7,6 +7,7 @@ import StartScreen from './StartScreen';
 import Question from './Question';
 import NextButton from './NextButton';
 import Progress from './Progress';
+import FinishScreen from './FinishScreen';
 /* eslint-disable */
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
   index: 0,
   answer: null,
   points: 0,
+  highscore: 0,
 };
 
 const reducer = function (curState, action) {
@@ -39,16 +41,28 @@ const reducer = function (curState, action) {
       };
     case 'nextQuestion':
       return { ...curState, index: curState.index + 1, answer: null };
+    case 'finishQuiz':
+      const hasNewHighscore = curState.points > curState.highscore;
+      return {
+        ...curState,
+        status: 'finished',
+        highscore: hasNewHighscore ? curState.points : curState.highscore,
+      };
+    case 'restartQuiz':
+      return {
+        ...initialState,
+        highscore: curState.highscore,
+        status: 'ready',
+        questions: curState.questions,
+      };
     default:
       throw new Error('Action unkown');
   }
 };
 
 function App() {
-  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  );
+  const [{ questions, status, index, answer, points, highscore }, dispatch] =
+    useReducer(reducer, initialState);
 
   const numQuestions = questions.length;
   const maxPossiblePoints = questions.reduce((acc, cur) => acc + cur.points, 0);
@@ -83,8 +97,21 @@ function App() {
               dispatch={dispatch}
               answer={answer}
             />
-            <NextButton dispatch={dispatch} answer={answer} />
+            <NextButton
+              dispatch={dispatch}
+              answer={answer}
+              index={index}
+              numQuestions={numQuestions}
+            />
           </>
+        )}
+        {status === 'finished' && (
+          <FinishScreen
+            points={points}
+            maxPossiblePoints={maxPossiblePoints}
+            highscore={highscore}
+            dispatch={dispatch}
+          />
         )}
       </Main>
     </div>
