@@ -86,9 +86,10 @@ function App() {
   const maxPossiblePoints = questions.reduce((acc, cur) => acc + cur.points, 0);
 
   useEffect(function () {
-    fetch('http://localhost:9000/questions')
+    // fetch('http://localhost:9000/questions') // For development mode only
+    fetch('data/questions.json')
       .then(res => res.json())
-      .then(data => dispatch({ type: 'dataReceived', payload: data }))
+      .then(data => dispatch({ type: 'dataReceived', payload: data.questions })) // To be edited in development mode
       .catch(_ => dispatch({ type: 'dataFailed' }));
   }, []);
 
