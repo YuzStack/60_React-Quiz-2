@@ -87,7 +87,7 @@ function App() {
 
   useEffect(function () {
     // fetch('http://localhost:9000/questions') // For development mode only
-    fetch('data/questions.json')
+    fetch('/questions.json')
       .then(res => res.json())
       .then(data => dispatch({ type: 'dataReceived', payload: data.questions })) // To be edited in development mode
       .catch(_ => dispatch({ type: 'dataFailed' }));
