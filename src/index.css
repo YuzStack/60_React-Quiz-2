@@ -254,6 +254,112 @@ progress {
   }
 }
 
+@media (width < 720px) {
+  .app-header {
+    width: fit-content;
+    gap: 4rem;
+  }
+
+  .app-header img {
+    width: 100px;
+    height: 100px;
+  }
+
+  h1 {
+    font-size: 4rem;
+  }
+}
+
+@media (width < 550px) {
+  .app-header {
+    width: fit-content;
+    gap: 3rem;
+  }
+
+  .app-header img {
+    width: 80px;
+    height: 80px;
+  }
+
+  h1 {
+    font-size: 2.5rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  h3 {
+    font-size: 1.8rem;
+  }
+
+  .btn {
+    font-size: 1.6rem;
+  }
+
+  .main {
+    width: fit-content;
+  }
+
+  .question-screen {
+    padding-inline: 1.5rem;
+  }
+
+  .timer {
+    font-size: 1.6rem;
+    padding: 1.2rem 2.4rem;
+  }
+
+  .result {
+    font-size: 1.6rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .highscore {
+    font-size: 1.4rem;
+  }
+}
+
+@media (width < 400px) {
+  .app-header {
+    width: fit-content;
+    gap: 2rem;
+  }
+
+  .app-header img {
+    width: 50px;
+    height: 50px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+
+  .start {
+    text-align: center;
+  }
+
+  .result span {
+    font-size: 1.8rem;
+    margin-right: 2.5px;
+  }
+}
+
+@media (width < 360px) {
+  .result {
+    font-size: 1.5rem;
+    padding: 0.7rem 1rem;
+  }
+
+  .result span {
+    font-size: 1.6rem;
+    margin-right: 2px;
+  }
+
+  .highscore {
+    font-size: 1.3rem;
+  }
+}
 /* ********** */
 /* First counter example */
 .counter {
